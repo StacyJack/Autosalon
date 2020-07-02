@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AutoSalonModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Auto">
+          <Key>
+            <PropertyRef Name="Id_Auto" />
+          </Key>
+          <Property Name="Id_Auto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Color" Type="int" Nullable="false" />
+          <Property Name="State_Number" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Year_of_issue" Type="date" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Availability">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Firms" Type="int" Nullable="false" />
+          <Property Name="Id_Auto" Type="int" Nullable="false" />
+          <Property Name="Availability" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Firms">
+          <Key>
+            <PropertyRef Name="Id_Firms" />
+          </Key>
+          <Property Name="Id_Firms" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Maill" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Availability_Auto">
+          <End Role="Auto" Type="Self.Auto" Multiplicity="1" />
+          <End Role="Availability" Type="Self.Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auto">
+              <PropertyRef Name="Id_Auto" />
+            </Principal>
+            <Dependent Role="Availability">
+              <PropertyRef Name="Id_Auto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Availability_Firms">
+          <End Role="Firms" Type="Self.Firms" Multiplicity="1" />
+          <End Role="Availability" Type="Self.Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firms">
+              <PropertyRef Name="Id_Firms" />
+            </Principal>
+            <Dependent Role="Availability">
+              <PropertyRef Name="Id_Firms" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AutoSalonModelContainer">
+          <EntitySet Name="Auto" EntityType="Self.Auto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Availability" EntityType="Self.Availability" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Firms" EntityType="Self.Firms" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Availability_Auto" Association="Self.FK_Availability_Auto">
+            <End Role="Auto" EntitySet="Auto" />
+            <End Role="Availability" EntitySet="Availability" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Availability_Firms" Association="Self.FK_Availability_Firms">
+            <End Role="Firms" EntitySet="Firms" />
+            <End Role="Availability" EntitySet="Availability" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AutoSalonModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Auto">
+          <Key>
+            <PropertyRef Name="Id_Auto" />
+          </Key>
+          <Property Name="Id_Auto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Color" Type="Int32" Nullable="false" />
+          <Property Name="State_Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year_of_issue" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Availability" Relationship="Self.FK_Availability_Auto" FromRole="Auto" ToRole="Availability" />
+        </EntityType>
+        <EntityType Name="Availability">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Firms" Type="Int32" Nullable="false" />
+          <Property Name="Id_Auto" Type="Int32" Nullable="false" />
+          <Property Name="Availability1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Auto" Relationship="Self.FK_Availability_Auto" FromRole="Availability" ToRole="Auto" />
+          <NavigationProperty Name="Firms" Relationship="Self.FK_Availability_Firms" FromRole="Availability" ToRole="Firms" />
+        </EntityType>
+        <EntityType Name="Firms">
+          <Key>
+            <PropertyRef Name="Id_Firms" />
+          </Key>
+          <Property Name="Id_Firms" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Maill" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Availability" Relationship="Self.FK_Availability_Firms" FromRole="Firms" ToRole="Availability" />
+        </EntityType>
+        <Association Name="FK_Availability_Auto">
+          <End Role="Auto" Type="Self.Auto" Multiplicity="1" />
+          <End Role="Availability" Type="Self.Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Auto">
+              <PropertyRef Name="Id_Auto" />
+            </Principal>
+            <Dependent Role="Availability">
+              <PropertyRef Name="Id_Auto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Availability_Firms">
+          <End Role="Firms" Type="Self.Firms" Multiplicity="1" />
+          <End Role="Availability" Type="Self.Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Firms">
+              <PropertyRef Name="Id_Firms" />
+            </Principal>
+            <Dependent Role="Availability">
+              <PropertyRef Name="Id_Firms" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AutoSalonEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Auto" EntityType="Self.Auto" />
+          <EntitySet Name="Availability" EntityType="Self.Availability" />
+          <EntitySet Name="Firms" EntityType="Self.Firms" />
+          <AssociationSet Name="FK_Availability_Auto" Association="Self.FK_Availability_Auto">
+            <End Role="Auto" EntitySet="Auto" />
+            <End Role="Availability" EntitySet="Availability" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Availability_Firms" Association="Self.FK_Availability_Firms">
+            <End Role="Firms" EntitySet="Firms" />
+            <End Role="Availability" EntitySet="Availability" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AutoSalonModelContainer" CdmEntityContainer="AutoSalonEntities">
+          <EntitySetMapping Name="Auto">
+            <EntityTypeMapping TypeName="AutoSalonModel.Auto">
+              <MappingFragment StoreEntitySet="Auto">
+                <ScalarProperty Name="Id_Auto" ColumnName="Id_Auto" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="State_Number" ColumnName="State_Number" />
+                <ScalarProperty Name="Year_of_issue" ColumnName="Year_of_issue" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Availability">
+            <EntityTypeMapping TypeName="AutoSalonModel.Availability">
+              <MappingFragment StoreEntitySet="Availability">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Id_Firms" ColumnName="Id_Firms" />
+                <ScalarProperty Name="Id_Auto" ColumnName="Id_Auto" />
+                <ScalarProperty Name="Availability1" ColumnName="Availability" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Firms">
+            <EntityTypeMapping TypeName="AutoSalonModel.Firms">
+              <MappingFragment StoreEntitySet="Firms">
+                <ScalarProperty Name="Id_Firms" ColumnName="Id_Firms" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Maill" ColumnName="Maill" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
